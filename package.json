@@ -1,0 +1,26 @@
+{
+  "name": "gulp-filter-files",
+  "version": "1.0.0",
+  "description": "Gulp-plugin for filter files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RGRU/gulp-filter-files.git"
+  },
+  "keywords": [
+    "gulp-plugin",
+    "filter"
+  ],
+  "dependencies": {
+    "through2": "^0.6.1"
+  },
+  "author": "greensleeves <mytower@yandex.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RGRU/gulp-filter-files/issues"
+  },
+  "homepage": "https://github.com/RGRU/gulp-filter-files#readme"
+}
