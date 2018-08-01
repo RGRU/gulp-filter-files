@@ -39,6 +39,11 @@ function filterBy() {
         var json;
         var ctime = fs.statSync(file.path).ctime.toString();
 
+        // check exist dir
+        if (!fs.existsSync(tempDir)) {
+            fs.mkdirSync(tempDir);
+        }
+
         // check exist file
         if (!checkExistFile(`${storagePath}`)) {
             fs.writeFileSync(`${storagePath}`, JSON.stringify({}), 'utf8')
