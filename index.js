@@ -7,7 +7,6 @@ var through = require('through2');
  */
 var checkExistFile = (path) => path ? fs.existsSync(path) : null;
 
-
 function filterBy() {
     "use strict";
 
@@ -37,6 +36,7 @@ function filterBy() {
 
     var dataHandler = function(file, enc, done) {
         var json;
+        var mtime = fs.statSync(file.path).mtime.toString();
         var ctime = fs.statSync(file.path).ctime.toString();
 
         // check exist dir
@@ -52,10 +52,17 @@ function filterBy() {
         // parse json from gulp-filter-files-storage
         json = JSON.parse(fs.readFileSync(`${storagePath}`, 'utf8'));
 
-        if (!json.hasOwnProperty(file.path) || json[file.path] !== ctime) {
+        // creating empty object
+        if (!json[file.path] || typeof json[file.path] === 'string') {
+            json[file.path] = {};
+        }
+
+        if (!json.hasOwnProperty(file.path) || json[file.path].mtime !== mtime || json[file.path].ctime !== ctime) {
 
             // add file to json
-            json[file.path] = ctime;
+            json[file.path].mtime = mtime;
+            json[file.path].ctime = ctime;
+
             // update gulp-filter-files-storage
             fs.writeFileSync(`${storagePath}`, JSON.stringify(json), 'utf8');
 
