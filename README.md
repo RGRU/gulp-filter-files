@@ -2,11 +2,11 @@
 local filter for gulp-tasks
 
 # monitored params
---off-ff
+##--off-ff
 turns off the filter
 
---force
+##--force
 alias for --off-ff
 
---env=prod
+##--env=prod
 turns off the filter if environment is prod
