@@ -26,7 +26,7 @@ function filterBy() {
      * Check off-ff argument
      * @type {boolean}
      */
-    var isFilterOff = process.argv.some(item => /off-ff/g.test(item));
+    var isFilterOff = process.argv.some(item => /off-ff|force/g.test(item));
 
     /**
      * temp directory
