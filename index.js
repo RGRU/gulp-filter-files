@@ -17,6 +17,18 @@ function filterBy() {
     var workingDir = process.cwd();
 
     /**
+     * Check production environment
+     * @type {boolean}
+     */
+    var isProd = process.argv.some(item => /env\s?=\s?prod/g.test(item));
+
+    /**
+     * Check off-ff argument
+     * @type {boolean}
+     */
+    var isFilterOff = process.argv.some(item => /off-ff/g.test(item));
+
+    /**
      * temp directory
      * @type {string}
      */
@@ -57,7 +69,7 @@ function filterBy() {
             json[file.path] = {};
         }
 
-        if (!json.hasOwnProperty(file.path) || json[file.path].mtime !== mtime || json[file.path].ctime !== ctime) {
+        if (isProd || isFilterOff || !json.hasOwnProperty(file.path) || json[file.path].mtime !== mtime || json[file.path].ctime !== ctime) {
 
             // add file to json
             json[file.path].mtime = mtime;
