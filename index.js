@@ -23,10 +23,18 @@ function filterBy() {
     var isProd = process.argv.some(item => /env\s?=\s?prod/g.test(item));
 
     /**
+     * Environment
+     * @type {string}
+     */
+    var env = isProd ? 'prod' : 'dev';
+
+    /**
      * Check off-ff argument
      * @type {boolean}
      */
     var isFilterOff = process.argv.some(item => /off-ff|force/g.test(item));
+
+    var isClear = process.argv.some(item => /clear/g.test(item));
 
     /**
      * temp directory
@@ -56,9 +64,16 @@ function filterBy() {
             fs.mkdirSync(tempDir);
         }
 
+        // check clear param
+        if (isClear) {
+            // clear storage file
+            fs.writeFileSync(`${storagePath}`, JSON.stringify({}), 'utf8');
+            return false
+        }
+
         // check exist file
         if (!checkExistFile(`${storagePath}`)) {
-            fs.writeFileSync(`${storagePath}`, JSON.stringify({}), 'utf8')
+            fs.writeFileSync(`${storagePath}`, JSON.stringify({}), 'utf8');
         }
 
         // parse json from gulp-filter-files-storage
@@ -69,11 +84,22 @@ function filterBy() {
             json[file.path] = {};
         }
 
-        if (isProd || isFilterOff || !json.hasOwnProperty(file.path) || json[file.path].mtime !== mtime || json[file.path].ctime !== ctime) {
+        // create mtime, ctime object
+        if (!json[file.path][env]) {
+            json[file.path][env] = {
+                mtime: null,
+                ctime: null
+            }
+        }
+
+        if (isFilterOff ||
+            !json.hasOwnProperty(file.path) ||
+            json[file.path][env].mtime !== mtime ||
+            json[file.path][env].ctime !== ctime) {
 
             // add file to json
-            json[file.path].mtime = mtime;
-            json[file.path].ctime = ctime;
+            json[file.path][env].mtime = mtime;
+            json[file.path][env].ctime = ctime;
 
             // update gulp-filter-files-storage
             fs.writeFileSync(`${storagePath}`, JSON.stringify(json), 'utf8');

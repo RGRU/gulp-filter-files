@@ -9,4 +9,7 @@ turns off the filter
 alias for --off-ff
 
 ## --env=prod
-turns off the filter if environment is prod
+set production environment
+
+## --clear
+clear storage file
