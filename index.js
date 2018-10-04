@@ -92,10 +92,12 @@ function filterBy() {
             }
         }
 
-        if (isFilterOff ||
-            !json.hasOwnProperty(file.path) ||
+        if (
+            isFilterOff ||
             json[file.path][env].mtime !== mtime ||
-            json[file.path][env].ctime !== ctime) {
+            json[file.path][env].ctime !== ctime ||
+            !json.hasOwnProperty(file.path)
+        ) {
 
             // add file to json
             json[file.path][env].mtime = mtime;
